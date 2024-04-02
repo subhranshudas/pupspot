@@ -1,7 +1,35 @@
 import Image from "next/image";
+import { notFound } from "next/navigation";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 
-import { getPost } from "@/lib/api";
+export async function generateStaticParams() {
+  const breeds = await getAllPosts();
+
+  return breeds.map((breed) => ({
+    breedSlug: breed.slug,
+  }));
+}
+
+export async function generateMetadata({ params }) {
+  const { breedSlug } = params;
+
+  const breed = await getPost(breedSlug);
+
+  if (!breed) {
+    return notFound();
+  }
+
+  return {
+    title: breed?.title,
+    description: breed?.title,
+    openGraph: {
+      title: breed?.title,
+      images: [breed?.image?.url],
+    },
+  };
+}
+
+import { getAllPosts, getPost } from "@/lib/api";
 
 export default async function BreedPage({ params }) {
   const { breedSlug } = params;

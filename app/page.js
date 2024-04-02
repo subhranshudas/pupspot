@@ -3,6 +3,23 @@ import Image from "next/image";
 
 import { getAllPosts } from "@/lib/api";
 
+export async function generateMetadata() {
+  const breeds = await getAllPosts();
+
+  const images = breeds.map((breed) => breed?.image?.url);
+  const keywords = breeds.map((breed) => breed?.title);
+
+  return {
+    title: "Blogs about dogs",
+    description: "A home for dogs and dog lovers",
+    openGraph: {
+      title: "Blogs about dogs",
+      images: images,
+    },
+    keywords,
+  };
+}
+
 export default async function Home() {
   const posts = await getAllPosts();
 
