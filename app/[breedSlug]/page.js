@@ -54,6 +54,10 @@ export default async function BreedPage({ params }) {
         />
       </div>
 
+      <p className="text-xl uppercase">
+        <span className="font-medium">Age:</span> {breed?.age}
+      </p>
+
       <div className="w-3/5 mx-auto flex flex-col mt-8">
         {documentToReactComponents(breed.body.json)}
       </div>
