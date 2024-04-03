@@ -1,3 +1,4 @@
+import { draftMode } from "next/headers";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
@@ -13,7 +14,8 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { breedSlug } = params;
 
-  const breed = await getPost(breedSlug);
+  const { isEnabled } = draftMode();
+  const breed = await getPost(breedSlug, isEnabled);
 
   if (!breed) {
     return notFound();
@@ -34,7 +36,8 @@ import { getAllPosts, getPost } from "@/lib/api";
 export default async function BreedPage({ params }) {
   const { breedSlug } = params;
 
-  const breed = await getPost(breedSlug);
+  const { isEnabled } = draftMode();
+  const breed = await getPost(breedSlug, isEnabled);
 
   return (
     <section className="flex min-h-screen max-w-[1440px] mx-auto flex-col items-center gap-4 py-8">

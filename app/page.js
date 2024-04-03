@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { draftMode } from "next/headers";
 
 import { getAllPosts } from "@/lib/api";
 
@@ -21,7 +22,8 @@ export async function generateMetadata() {
 }
 
 export default async function Home() {
-  const posts = await getAllPosts();
+  const { isEnabled } = draftMode();
+  const posts = await getAllPosts(12, isEnabled);
 
   return (
     <main className="flex min-h-screen max-w-[1440px] mx-auto flex-col items-center justify-between p-24">
