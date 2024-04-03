@@ -9,7 +9,30 @@ export async function POST(request) {
     return NextResponse.json({ message: "Invalid secret" }, { status: 401 });
   }
 
-  revalidateTag("posts");
+  try {
+    const body = await request.json();
+
+    const contentType = body.sys.contentType.sys.id;
+    console.log(
+      "[LOG]: Revalidate.request.body.sys.contentType.sys.id",
+      contentType
+    );
+
+    const slug = body.fields?.slug?.["en-US"];
+    console.log("[LOG]: Revalidate.request.body.fields?.slug?.[en-US]", slug);
+
+    // 1. revalidate the extact page path
+    // 2. revalidateTag("post-[slug]") ?
+    //OR 2. revalidateTag("posts") ?
+
+    revalidateTag("posts");
+  } catch (error) {
+    console.error("Error revalidating: ", error);
+    return NextResponse.json(
+      { message: `Error revalidating: ${JSON.stringify(error)}` },
+      { status: 500 }
+    );
+  }
 
   return NextResponse.json({ revalidated: true, now: Date.now() });
 }
