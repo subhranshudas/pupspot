@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { revalidatePath, revalidateTag } from "next/cache";
+import CONTENT_TYPE from "@/lib/content-types";
 
 export async function POST(request) {
   const requestHeaders = new Headers(request.headers);
@@ -22,15 +23,15 @@ export async function POST(request) {
     console.log("[LOG]: Revalidate.request.body.fields?.slug?.[en-US]", slug);
 
     switch (contentType) {
-      case "posts": {
-        console.log("[LOG]: Revalidate revalidateTag('posts')");
-        revalidateTag("posts");
+      case CONTENT_TYPE.DOG: {
+        console.log(`[LOG]: Revalidate revalidateTag(${CONTENT_TYPE.DOG})`);
+        revalidateTag(CONTENT_TYPE.DOG);
         break;
       }
 
-      case "products": {
-        console.log("[LOG]: Revalidate revalidateTag('products')");
-        revalidateTag("products");
+      case CONTENT_TYPE.PRODUCT: {
+        console.log(`[LOG]: Revalidate revalidateTag(${CONTENT_TYPE.PRODUCT})`);
+        revalidateTag(CONTENT_TYPE.PRODUCT);
         break;
       }
 
