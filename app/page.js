@@ -24,6 +24,7 @@ export async function generateMetadata() {
 export default async function Home() {
   const { isEnabled } = draftMode();
   const posts = await getAllPosts(12, isEnabled);
+  const products = await getAllProducts(12, isEnabled);
 
   return (
     <main className="flex min-h-screen max-w-[1440px] mx-auto flex-col items-center justify-between p-24">
@@ -47,6 +48,17 @@ export default async function Home() {
                 />
               </div>
             </Link>
+          );
+        })}
+      </div>
+
+      <div className="mt-12 flex flex-col">
+        {products.map((product) => {
+          return (
+            <div>
+              <h1 className="text-3xl uppercase">{product?.title}</h1>
+              <p className="text-xl text-gray-600">{product?.price}</p>
+            </div>
           );
         })}
       </div>

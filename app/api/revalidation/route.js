@@ -25,7 +25,11 @@ export async function POST(request) {
     // 2. revalidateTag("post-[slug]") ?
     //OR 2. revalidateTag("posts") ?
 
-    revalidateTag("posts");
+    if (contentType === "post") {
+      revalidateTag("posts");
+    } else if (contentType === "product") {
+      revalidateTag("products");
+    }
   } catch (error) {
     console.error("Error revalidating: ", error);
     return NextResponse.json(
