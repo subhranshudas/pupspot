@@ -32,6 +32,7 @@ export default async function Home() {
         {posts.map((dog) => {
           return (
             <Link
+              prefetch={false}
               key={dog?.slug}
               className="flex flex-col"
               href={`/${dog?.slug}`}
