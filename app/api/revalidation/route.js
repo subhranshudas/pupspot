@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export async function POST(request) {
   const requestHeaders = new Headers(request.headers);
@@ -27,6 +27,7 @@ export async function POST(request) {
 
     if (contentType === "post") {
       revalidateTag("posts");
+      revalidatePath(`/${slug}`);
     } else if (contentType === "product") {
       revalidateTag("products");
     }
