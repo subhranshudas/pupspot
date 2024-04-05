@@ -26,7 +26,10 @@ export async function POST(request) {
     //OR 2. revalidateTag("posts") ?
 
     if (contentType === "post") {
+      console.log("[LOG]: Revalidate revalidateTag('posts')");
       revalidateTag("posts");
+
+      console.log(`[LOG]: Revalidate revalidatePath(/${slug})`);
       revalidatePath(`/${slug}`);
     } else if (contentType === "product") {
       revalidateTag("products");
