@@ -21,16 +21,30 @@ export async function POST(request) {
       contentType
     );
 
+    if (!contentType) {
+      return NextResponse.json(
+        { message: "Invalid contentType" },
+        { status: 400 }
+      );
+    }
+
     const slug = body.fields?.slug?.["en-US"];
     console.log("[LOG]: Revalidate.request.body.fields?.slug?.[en-US]", slug);
+
+    if (!slug) {
+      return NextResponse.json({ message: "Invalid slug" }, { status: 400 });
+    }
+
+    let path = null;
 
     switch (contentType) {
       case CONTENT_TYPE.DOG: {
         console.log(`[LOG]: Revalidate revalidateTag(${CONTENT_TYPE.DOG})`);
         revalidateTag(CONTENT_TYPE.DOG);
-        revalidatePath("/dogs");
+        path = `/dogs/${slug}`;
+        revalidatePath(path);
         revalidatedTarget.tag = CONTENT_TYPE.DOG;
-        revalidatedTarget.path = "/dogs";
+        revalidatedTarget.path = path;
         break;
       }
 
