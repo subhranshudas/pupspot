@@ -21,18 +21,21 @@ export async function POST(request) {
     const slug = body.fields?.slug?.["en-US"];
     console.log("[LOG]: Revalidate.request.body.fields?.slug?.[en-US]", slug);
 
-    // 1. revalidate the extact page path
-    // 2. revalidateTag("post-[slug]") ?
-    //OR 2. revalidateTag("posts") ?
+    switch (contentType) {
+      case "posts": {
+        console.log("[LOG]: Revalidate revalidateTag('posts')");
+        revalidateTag("posts");
+        break;
+      }
 
-    if (contentType === "post") {
-      console.log("[LOG]: Revalidate revalidateTag('posts')");
-      revalidateTag("posts");
+      case "products": {
+        console.log("[LOG]: Revalidate revalidateTag('products')");
+        revalidateTag("products");
+        break;
+      }
 
-      // console.log(`[LOG]: Revalidate revalidatePath(/${slug})`);
-      // revalidatePath(`/${slug}`, "page");
-    } else if (contentType === "product") {
-      revalidateTag("products");
+      default:
+        break;
     }
   } catch (error) {
     console.error("Error revalidating: ", error);
