@@ -1,7 +1,17 @@
 import Image from "next/image";
 import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
-import { getDog } from "@/lib/api/dog";
+import { getDog, getAllDogs } from "@/lib/api/dog";
+
+export async function generateStaticParams() {
+  const dogs = await getAllDogs();
+
+  const slugs = dogs.map((dog) => ({
+    breedSlug: dog.slug,
+  }));
+
+  return slugs;
+}
 
 export async function generateMetadata({ params }) {
   const { isEnabled } = draftMode();

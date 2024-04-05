@@ -1,6 +1,16 @@
 import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
-import { getProduct } from "@/lib/api/product";
+import { getProduct, getAllProducts } from "@/lib/api/product";
+
+export async function generateStaticParams() {
+  const products = await getAllProducts();
+
+  const slugs = products.map((product) => ({
+    productSlug: product.slug,
+  }));
+
+  return slugs;
+}
 
 export async function generateMetadata({ params }) {
   const { isEnabled } = draftMode();

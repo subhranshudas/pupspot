@@ -10,6 +10,8 @@ export async function POST(request) {
     return NextResponse.json({ message: "Invalid secret" }, { status: 401 });
   }
 
+  let revalidatedTarget = {};
+
   try {
     const body = await request.json();
 
@@ -26,12 +28,14 @@ export async function POST(request) {
       case CONTENT_TYPE.DOG: {
         console.log(`[LOG]: Revalidate revalidateTag(${CONTENT_TYPE.DOG})`);
         revalidateTag(CONTENT_TYPE.DOG);
+        revalidatedTarget.tag = CONTENT_TYPE.DOG;
         break;
       }
 
       case CONTENT_TYPE.PRODUCT: {
         console.log(`[LOG]: Revalidate revalidateTag(${CONTENT_TYPE.PRODUCT})`);
         revalidateTag(CONTENT_TYPE.PRODUCT);
+        revalidatedTarget.tag = CONTENT_TYPE.PRODUCT;
         break;
       }
 
@@ -46,5 +50,9 @@ export async function POST(request) {
     );
   }
 
-  return NextResponse.json({ revalidated: true, now: Date.now() });
+  return NextResponse.json({
+    revalidated: true,
+    now: Date.now(),
+    revalidatedTarget: revalidatedTarget,
+  });
 }
