@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { draftMode } from "next/headers";
 
-import { getAllPosts } from "@/lib/api";
+import { getAllPosts, getAllProducts } from "@/lib/api";
 
 export async function generateMetadata() {
   const breeds = await getAllPosts();
@@ -52,11 +52,16 @@ export default async function Home() {
         })}
       </div>
 
-      <div className="mt-12 flex flex-col">
-        {products.map((product) => {
+      <div className="w-full mt-20 flex flex-col gap-2">
+        <h2 className="text-4xl mb-8">OUR PRODUCTS</h2>
+
+        {products.map((product, idx) => {
           return (
-            <div>
-              <h1 className="text-3xl uppercase">{product?.title}</h1>
+            <div
+              className="flex justify-between items-center"
+              key={`product-${idx}`}
+            >
+              <h1 className="text-2xl uppercase">{product?.title}</h1>
               <p className="text-xl text-gray-600">{product?.price}</p>
             </div>
           );
