@@ -30,7 +30,7 @@ export async function POST(request) {
       revalidateTag("posts");
 
       console.log(`[LOG]: Revalidate revalidatePath(/${slug})`);
-      revalidatePath(`/${slug}`);
+      revalidatePath(`/${slug}`, "page");
     } else if (contentType === "product") {
       revalidateTag("products");
     }
