@@ -28,7 +28,9 @@ export async function POST(request) {
       case CONTENT_TYPE.DOG: {
         console.log(`[LOG]: Revalidate revalidateTag(${CONTENT_TYPE.DOG})`);
         revalidateTag(CONTENT_TYPE.DOG);
+        revalidatePath("/dogs");
         revalidatedTarget.tag = CONTENT_TYPE.DOG;
+        revalidatedTarget.path = "/dogs";
         break;
       }
 
