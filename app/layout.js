@@ -2,6 +2,8 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
+import { draftMode } from "next/headers";
+import { PreviewExit } from "./preview-exit";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,6 +13,8 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  const { isEnabled } = draftMode();
+
   return (
     <html lang="en">
       <body className={inter.className}>
@@ -22,6 +26,13 @@ export default function RootLayout({ children }) {
         </Link>
 
         {children}
+
+        {isEnabled ? (
+          <p className="w-full z-[9999] bg-orange-200 py-4 text-center">
+            Preview mode is on!
+            <PreviewExit />
+          </p>
+        ) : null}
       </body>
       <GoogleAnalytics gaId="AW-16522584580" />
     </html>
